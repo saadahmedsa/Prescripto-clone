@@ -1,6 +1,6 @@
 import Banner from '@/components/commom/Banner'
 import Hero from '@/components/commom/Hero'
-import Specialty from '@/components/commom/specialty'
+import Specialty from '@/components/commom/Specialty'
 import Topdoctor from '@/components/commom/Topdoctor'
 import React from 'react'
 
