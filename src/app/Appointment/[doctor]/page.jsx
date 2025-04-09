@@ -1,11 +1,12 @@
 "use client";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { assets, doctors } from "../../../../public/assets/assets_frontend/assets";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 const Page = () => {
+  const router = useRouter();
   const {doctor}= useParams();
   
   const [doctorinfo, setDoctor] = useState(null);
