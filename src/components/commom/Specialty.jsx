@@ -10,7 +10,7 @@ const Specialty = () => {
       <p className='text-center text-sm sm:text-base max-w-lg'>
         Simply browse through our extensive list of trusted doctors and schedule your appointment hassle-free.
       </p>
-      <div className='flex flex-wrap sm:justify-center gap-4 pt-5 w-full overflow-y-auto'>
+      <div className='flex flex-wrap  justify-center item-center gap-4 pt-5 w-full '>
         {
           specialityData.map((item, index) => (
             <Link key={index} href={`/Doctors/${item.speciality}`} className='flex flex-col items-center text-xs cursor-pointer transition-transform duration-500 hover:-translate-y-2'>
