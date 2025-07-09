@@ -51,9 +51,20 @@ const Navbar = () => {
             />
           </>
         ) : (
+           <>
           <Button className="rounded-full ">
             <Link href="/sign-in">login</Link>
           </Button>
+            <Image
+              onClick={() => setMenu(true)}
+              className='md:hidden w-6 cursor-pointer'
+              src={assets.menu_icon}
+              alt='menu'
+              height={24}
+              width={24}
+            />
+          </>
+          
         )}
       </div>
 
