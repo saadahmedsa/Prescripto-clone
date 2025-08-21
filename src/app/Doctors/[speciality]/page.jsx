@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { doctors } from "../../../../public/assets/assets_frontend/assets";
 import { useParams, useRouter } from "next/navigation";
+import Card from "@/components/commom/Card";
 
 const Page = () => {
   const router = useRouter();
@@ -54,21 +55,7 @@ const Page = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-3 sm:px-0">
           {doctor.length > 0 ? (
             doctor.map((item, index) => (
-              <div
-                onClick={() => router.push(`/Appointment/${item._id}`)}
-                key={index}
-                className="border border-blue-200 rounded-xl cursor-pointer hover:translate-y-[-5px] transition-transform duration-300 shadow-md"
-              >
-                <Image className="bg-blue-50 w-full h-auto rounded-t-xl" src={item.image} width={300} height={300} alt={item.name} />
-                <div className="p-4">
-                  <div className="flex items-center gap-2 text-sm text-green-500">
-                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                    <p>Available</p>
-                  </div>
-                  <p className="font-semibold">{item.name}</p>
-                  <p className="text-gray-600">{item.speciality}</p>
-                </div>
-              </div>
+               <Card item={item} key={item._id}/>
             ))
           ) : (
             <p className="text-gray-600 col-span-full text-center">No doctors found for this speciality.</p>

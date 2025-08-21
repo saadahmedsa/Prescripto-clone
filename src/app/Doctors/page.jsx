@@ -1,11 +1,10 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { doctors } from "../../../public/assets/assets_frontend/assets";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
+
+import Card from "@/components/commom/Card";
 
 const Page = () => {
-  const router = useRouter();
   const [filter, setFilter] = useState("");
   const [doctor, setDoctor] = useState([]);
   const [loading, setLoading] = useState(false); // ✅ Loader State
@@ -24,7 +23,7 @@ const Page = () => {
 
   return (
     <div>
-      <p className="text-gray-600">Browse through the doctors' Speciality.</p>
+      <p className="text-gray-600">Browse through the doctor's Speciality.</p>
       <div className="flex flex-col sm:flex-row items-start gap-5 mt-5">
         {/* Sidebar Filters */}
         <div className="md:w-1/4 flex flex-col gap-4 text-sm text-gray-600">
@@ -51,28 +50,8 @@ const Page = () => {
               <div className="w-12 h-12 border-4 border-blue-300 border-t-blue-600 rounded-full animate-spin"></div>
             </div>
           ) : (
-            doctor.map((item, index) => (
-              <div
-                key={index}
-                onClick={() => router.push(`/Appointment/${item._id}`)}
-                className="border border-blue-200 rounded-xl cursor-pointer hover:translate-y-[-5px] transition-transform duration-300 shadow-md"
-              >
-                <Image
-                  className="bg-blue-50 w-full h-auto rounded-t-xl"
-                  src={item.image}
-                  width={300}
-                  height={300}
-                  alt={item.name}
-                />
-                <div className="p-4">
-                  <div className="flex items-center gap-2 text-sm text-green-500">
-                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                    <p>Available</p>
-                  </div>
-                  <p className="font-semibold">{item.name}</p>
-                  <p className="text-gray-600">{item.speciality}</p>
-                </div>
-              </div>
+            doctor.map((item) => (
+           <Card item={item} key={item._id}/>
             ))
           )}
         </div>
