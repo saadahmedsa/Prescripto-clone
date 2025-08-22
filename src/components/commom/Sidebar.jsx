@@ -1,7 +1,10 @@
 import {
-  ChartNoAxesCombined,
+
   X,
   Users,
+  Stethoscope,
+  ShieldIcon,
+  CalendarDays,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -13,13 +16,10 @@ export default function Sidebar({ open, setOpen }) {
   const pathname = usePathname()
 
   const links = [
-    { href: "/admin/dashboard", label: "Dashboard", icon: <ChartNoAxesCombined /> },
-    { href: "/admin/users", label: "Users", icon: <Users /> },
-    {
-      href: "/admin/Profile",
-      label: "Profile",
-      
-    },
+      { href: "/Admin", label: "Patients", icon: <Users /> },
+    { href: "/Admin/Doctor", label: "Doctors", icon: <Stethoscope/>},
+    { href: "/Admin/Appointment", label: "Appointments", icon: <CalendarDays/> },
+    
   ]
 
   return (
@@ -44,7 +44,7 @@ export default function Sidebar({ open, setOpen }) {
 
         <nav className="h-full flex flex-col justify-between bg-white text-black">
           <div className="flex flex-col gap-6">
-            <div className="hidden lg:flex  p-4">
+            <div className="hidden lg:flex  p-6">
               <Image src={assets.logo} alt="logo" width={135} height={100} />
             </div>
 
