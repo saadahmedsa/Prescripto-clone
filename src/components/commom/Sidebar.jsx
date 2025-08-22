@@ -35,7 +35,7 @@ export default function Sidebar({ open, setOpen }) {
         className={`fixed z-50 lg:static top-0 left-0 h-full w-64 bg-white shadow-lg transition-transform duration-300
         ${open ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
       >
-        <div className="flex justify-between items-center px-4 py-2 border-b lg:hidden">
+        <div className="flex justify-between items-center px-6 py-6 border-b lg:hidden">
           <Image src={assets.logo} alt="logo" width={150} height={150} />
           <button onClick={() => setOpen(false)}>
             <X />
@@ -48,7 +48,7 @@ export default function Sidebar({ open, setOpen }) {
               <Image src={assets.logo} alt="logo" width={135} height={100} />
             </div>
 
-            <div className="px-4 flex flex-col gap-2">
+            <div className="p-4 flex flex-col gap-2">
               {links.map(({ href, label, icon }) => (
                 <Link
                 onClick={() => setOpen(false)}

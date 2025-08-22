@@ -8,11 +8,11 @@ const Page = () => {
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/users"); // your patients API
+        const res = await fetch("http://localhost:5000/api/users" ,{  credentials: "include",}); // your patients API
         const data = await res.json();
         console.log(data);
         
-        setPatients(data.data || []); // assuming { success:true, data:[...] }
+        setPatients(data || []); 
       } catch (error) {
         console.error("Error fetching patients:", error);
       } finally {
@@ -34,12 +34,11 @@ const Page = () => {
         {patients.length > 0 ? (
           patients.map((patient) => (
             <div
-              key={patient._id}
+              key={patient.id}
               className="p-4 border rounded-lg shadow bg-white"
             >
-              <h2 className="text-lg font-semibold">{patient.name}</h2>
-              <p className="text-gray-600">Age: {patient.age}</p>
-              <p className="text-gray-500">{patient.email}</p>
+              <h2 className="text-lg font-semibold">{patient.firstName}</h2>
+              <p className="text-gray-600">Age: {patient.emailAddresses[0].emailAddress}</p>
             </div>
           ))
         ) : (
