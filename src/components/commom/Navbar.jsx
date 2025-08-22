@@ -9,9 +9,11 @@ import { assets } from '../../../public/assets/assets_frontend/assets';
 import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, user } = useUser();
   const [menu, setMenu] = useState(false);
   const pathname = usePathname();
+
+  const role = user?.publicMetadata?.role || "user"; // default user
 
   const NavLink = ({ href, children, onClick }) => {
     const isActive = pathname === href;
@@ -39,27 +41,29 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <ul className="hidden lg:flex items-center gap-6 font-medium">
-        <li>
-          <NavLink href="/">HOME</NavLink>
-        </li>
-        <li>
-          <NavLink href="/About">ABOUT</NavLink>
-        </li>
-        <li>
-          <NavLink href="/Doctors">ALL DOCTORS</NavLink>
-        </li>
-        <li>
-          <NavLink href="/Contact">CONTACT</NavLink>
-        </li>
+        <li><NavLink href="/">HOME</NavLink></li>
+        <li><NavLink href="/About">ABOUT</NavLink></li>
+        <li><NavLink href="/Doctors">ALL DOCTORS</NavLink></li>
+        <li><NavLink href="/Contact">CONTACT</NavLink></li>
       </ul>
 
       {/* Right Side Buttons */}
       <div className="flex items-center gap-4">
         {isSignedIn ? (
           <>
-            <Link className="hidden lg:flex" href="/Myappointment">
-              My Appointment
-            </Link>
+            {role === "admin" ? (
+              <Button className="rounded-full">
+              <Link className="hidden lg:flex" href="/Admin">
+                Admin 
+              </Link>
+              </Button>
+            ) : (
+                <Button className="rounded-full">
+              <Link className="hidden lg:flex" href="/Myappointment">
+                My Appointment
+              </Link>
+              </Button>
+            )}
             <UserButton />
             <Image
               onClick={() => setMenu(true)}
@@ -111,31 +115,22 @@ const Navbar = () => {
           />
         </div>
         <ul className="flex flex-col gap-5 p-5 font-medium">
-          <li>
-            <NavLink onClick={() => setMenu(false)} href="/">
-              HOME
-            </NavLink>
-          </li>
-          <li>
-            <NavLink onClick={() => setMenu(false)} href="/About">
-              ABOUT
-            </NavLink>
-          </li>
-          <li>
-            <NavLink onClick={() => setMenu(false)} href="/Doctors">
-              ALL DOCTORS
-            </NavLink>
-          </li>
-          <li>
-            <NavLink onClick={() => setMenu(false)} href="/Contact">
-              CONTACT
-            </NavLink>
-          </li>
+          <li><NavLink onClick={() => setMenu(false)} href="/">HOME</NavLink></li>
+          <li><NavLink onClick={() => setMenu(false)} href="/About">ABOUT</NavLink></li>
+          <li><NavLink onClick={() => setMenu(false)} href="/Doctors">ALL DOCTORS</NavLink></li>
+          <li><NavLink onClick={() => setMenu(false)} href="/Contact">CONTACT</NavLink></li>
+          
           {isSignedIn && (
             <li>
-              <Link onClick={() => setMenu(false)} href="/Myappointment">
-                My Appointment
-              </Link>
+              {role === "admin" ? (
+                <Link onClick={() => setMenu(false)} href="/admin">
+                  Admin Panel
+                </Link>
+              ) : (
+                <Link onClick={() => setMenu(false)} href="/Myappointment">
+                  My Appointment
+                </Link>
+              )}
             </li>
           )}
         </ul>
