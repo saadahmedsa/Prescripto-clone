@@ -5,6 +5,7 @@ import {
   Stethoscope,
   ShieldIcon,
   CalendarDays,
+  LayoutDashboard,
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -16,7 +17,8 @@ export default function Sidebar({ open, setOpen }) {
   const pathname = usePathname()
 
   const links = [
-      { href: "/Admin", label: "Patients", icon: <Users /> },
+      { href: "/Admin", label: "Dashborad", icon: <LayoutDashboard/> },
+      { href: "/Admin/Patient", label: "Patients", icon: <Users /> },
     { href: "/Admin/Doctor", label: "Doctors", icon: <Stethoscope/>},
     { href: "/Admin/Appointment", label: "Appointments", icon: <CalendarDays/> },
     

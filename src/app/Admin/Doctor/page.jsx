@@ -82,6 +82,8 @@ const Page = () => {
       console.error("Failed to add doctor:", err);
     }
   };
+  console.log(filteredDoctors);
+  
 
   if (loading) return <p className="p-4">Loading doctors...</p>;
 
