@@ -1,4 +1,6 @@
 "use client";
+import Card from "@/components/commom/Admincard";
+import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 
 const Page = () => {
@@ -106,38 +108,20 @@ const Page = () => {
               <option key={s} value={s}>{s}</option>
             ))}
           </select>
-          <button
+          <Button
             onClick={() => setShowAddModal(true)}
             className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
           >
             Add Doctor
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* Doctors Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-3 sm:px-0 relative min-h-[300px] w-full">
         {filteredDoctors.length > 0 ? (
           filteredDoctors.map((doctor) => (
-            <div
-              key={doctor._id}
-              className="bg-white shadow rounded-lg p-4 flex flex-col gap-2 hover:shadow-lg transition"
-            >
-              {doctor.image && (
-                <img
-                  src={doctor.image}
-                  alt={doctor.name}
-                  className="w-full h-40 object-cover rounded-lg mb-2"
-                />
-              )}
-              <h2 className="text-lg font-semibold">{doctor.name}</h2>
-              <p className="text-gray-600">{doctor.speciality}</p>
-              <p className="text-gray-500">{doctor.degree}</p>
-              <p className="text-gray-500">{doctor.experience} years experience</p>
-              <p className="text-gray-500">Fees: ${doctor.fees}</p>
-              <p className="text-gray-500">Address: {doctor.address}</p>
-              <p className="text-gray-500">{doctor.about}</p>
-            </div>
+           <Card item={doctor} key={doctor._id}/>
           ))
         ) : (
           <p>No doctors found.</p>
