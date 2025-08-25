@@ -29,12 +29,12 @@ const Page = () => {
   const filteredPatients = patients.filter((patient) => {
     const fullName = `${patient.firstName || ""} ${patient.lastName || ""}`.toLowerCase();
     const email = patient?.emailAddresses?.[0]?.emailAddress?.toLowerCase() || "";
-    const id = patient?.id?.toLowerCase() || "";
+
 
     return (
       fullName.includes(search.toLowerCase()) ||
-      email.includes(search.toLowerCase()) ||
-      id.includes(search.toLowerCase())
+      email.includes(search.toLowerCase()) 
+  
     );
   });
 

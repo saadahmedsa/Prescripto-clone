@@ -1,8 +1,10 @@
 "use client";
 import Card from "@/components/commom/Admincard";
 import { Button } from "@/components/ui/button";
-import { CloudUpload } from "lucide-react";
+import api from "@/helper/api";
+import { CloudUpload, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const Page = () => {
   const [doctors, setDoctors] = useState([]);
@@ -26,9 +28,8 @@ const Page = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/all");
-        const data = await res.json();
-        setDoctors(data.data || []);
+        const res = await api.get("/all");
+        setDoctors(res.data.data || []);
         setFilteredDoctors(data.data || []);
       } catch (error) {
         console.error("Error fetching doctors:", error);
@@ -59,13 +60,9 @@ const Page = () => {
   const handleAddDoctor = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/add-doctor", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newDoctor),
-      });
-      const data = await res.json();
-      if (data.success) {
+      const res = await api.post("/add", newDoctor);
+    
+      if (res.data.success) {
         setDoctors((prev) => [...prev, data.doctor]);
         setShowAddModal(false);
         setNewDoctor({
@@ -78,6 +75,10 @@ const Page = () => {
           about: "",
           image: "",
         });
+        toast.success("Doctor added successfully")
+      }else{
+        toast.failed(res.data.message || "Doctor added Failed ")
+
       }
     } catch (err) {
       console.error("Failed to add doctor:", err);
@@ -131,44 +132,94 @@ const Page = () => {
         )}
       </div>
 
-      {/* Add Doctor Modal */}
-      {showAddModal && (
-  <div className="fixed inset-0 bg-black/40 flex justify-end z-50">
+{showAddModal && (
+<div className="fixed inset-0 bg-black/40 z-50 flex transition-opacity duration-300 ease-out">
+    {/* Click backdrop to close */}
+    <div
+      className="flex-1"
+      onClick={() => setShowAddModal(false)}
+    />
+
     {/* Slide-over panel */}
-    <div className="bg-white h-full w-full max-w-md shadow-xl p-6 animate-slideInRight transition">
-      <h2 className="text-xl font-bold mb-4">Add Doctor</h2>
-      <form onSubmit={handleAddDoctor} className="flex flex-col gap-3">
-      <label className="flex items-center gap-2 border rounded px-3 py-2 cursor-pointer hover:bg-gray-50">
-  <CloudUpload size={40} color="blue" />
-  <input
-    type="file"
-    accept="image/*"
-    onChange={(e) =>
-      setNewDoctor({ ...newDoctor, image: e.target.files[0] })
-    }
-    className="hidden"
-  />
-    <span className="text-gray-600">Upload Image</span>
-</label>
+     <div
+      className={`bg-white overflow-y-auto w-full max-w-md shadow-xl p-6 transform 
+      transition-all duration-300 ease-out
+      ${showAddModal ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"}`}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold">Add Doctor</h2>
+        <button
+          onClick={() => setShowAddModal(false)}
+          className="p-2 rounded-full hover:bg-gray-100"
+        >
+          <X size={20} />
+        </button>
+      </div>
 
-        {["name","speciality","degree","experience","fees","address","about"].map((field) => (
-   
-
-          <input
-            key={field}
-            type={field==="fees"||field==="experience" ? "number" : "text"}
-            placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-            value={newDoctor[field]}
-            onChange={(e) =>
-              setNewDoctor({ ...newDoctor, [field]: e.target.value })
-            }
-            required
-            className="border rounded px-3 py-2"
+      {/* Form */}
+      <form onSubmit={handleAddDoctor} className="flex flex-col gap-4">
+        {/* Image Upload Box */}
+        <label className="border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition">
+          {newDoctor.image ? (
+            <img
+              src={URL.createObjectURL(newDoctor.image)}
+              alt="Preview"
+              className="h-24 w-24 object-cover rounded-full mb-2"
             />
+          ) : (
+            <>
+              <CloudUpload size={40} className="text-blue-600 mb-2" />
+              <span className="text-gray-600">Upload Image</span>
+            </>
+          )}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setNewDoctor({ ...newDoctor, image: e.target.files[0] })
+            }
+            className="hidden"
+          />
+        </label>
 
+        {/* Other fields */}
+        {["name", "speciality", "degree", "experience", "fees", "address", "about"].map((field) => (
+          <div key={field} className="flex flex-col">
+            <label className="text-sm font-medium text-gray-700">
+              {/* {field.charAt(0).toUpperCase() + field.slice(1)} */}
+            </label>
+            
+                  {field === "speciality" ? (
+                    <select
+                      value={newDoctor.speciality}
+                      onChange={(e) =>
+                        setNewDoctor({ ...newDoctor, speciality: e.target.value })
+                      }
+                      required
+                      className="border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    >
+                      <option value="">Select Speciality</option>
+                      <option value="Cardiologist">Gynecologist</option>
+                      <option value="Dermatologist">Dermatologist</option>
+                      <option value="Neurologist">Neurologist</option>
+                      <option value="Orthopedic">Pediatricians</option>
+                      <option value="General Physician">General Physician</option>
+                    </select>
+                  ) : (
+                    <input
+                      type={field === "fees" ? "number" : "text"}
+                      value={newDoctor[field]}
+                      onChange={(e) =>
+                        setNewDoctor({ ...newDoctor, [field]: e.target.value })
+                      }
+                      placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                      required
+                      className="border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    />
+                  )}
+          </div>
         ))}
-
-   
 
         <div className="flex justify-end gap-2 mt-4">
           <button
@@ -189,6 +240,7 @@ const Page = () => {
     </div>
   </div>
 )}
+
 
     </div>
   );
