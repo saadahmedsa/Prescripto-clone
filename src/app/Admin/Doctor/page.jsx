@@ -1,6 +1,7 @@
 "use client";
 import Card from "@/components/commom/Admincard";
 import { Button } from "@/components/ui/button";
+import { CloudUpload } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 const Page = () => {
@@ -132,42 +133,63 @@ const Page = () => {
 
       {/* Add Doctor Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">Add Doctor</h2>
-            <form onSubmit={handleAddDoctor} className="flex flex-col gap-3">
-              {["name","speciality","degree","experience","fees","address","about","image"].map((field) => (
-                <input
-                  key={field}
-                  type={field==="fees"||field==="experience" ? "number" : "text"}
-                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                  value={newDoctor[field]}
-                  onChange={(e) =>
-                    setNewDoctor({ ...newDoctor, [field]: e.target.value })
-                  }
-                  required={field!=="image"} // image optional
-                  className="border rounded px-3 py-1"
-                />
-              ))}
-              <div className="flex justify-end gap-2 mt-2">
-                <button
-                  type="button"
-                  onClick={() => setShowAddModal(false)}
-                  className="px-4 py-1 border rounded hover:bg-gray-100"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
-                >
-                  Add
-                </button>
-              </div>
-            </form>
-          </div>
+  <div className="fixed inset-0 bg-black/40 flex justify-end z-50">
+    {/* Slide-over panel */}
+    <div className="bg-white h-full w-full max-w-md shadow-xl p-6 animate-slideInRight transition">
+      <h2 className="text-xl font-bold mb-4">Add Doctor</h2>
+      <form onSubmit={handleAddDoctor} className="flex flex-col gap-3">
+      <label className="flex items-center gap-2 border rounded px-3 py-2 cursor-pointer hover:bg-gray-50">
+  <CloudUpload size={40} color="blue" />
+  <input
+    type="file"
+    accept="image/*"
+    onChange={(e) =>
+      setNewDoctor({ ...newDoctor, image: e.target.files[0] })
+    }
+    className="hidden"
+  />
+    <span className="text-gray-600">Upload Image</span>
+</label>
+
+        {["name","speciality","degree","experience","fees","address","about"].map((field) => (
+   
+
+          <input
+            key={field}
+            type={field==="fees"||field==="experience" ? "number" : "text"}
+            placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+            value={newDoctor[field]}
+            onChange={(e) =>
+              setNewDoctor({ ...newDoctor, [field]: e.target.value })
+            }
+            required
+            className="border rounded px-3 py-2"
+            />
+
+        ))}
+
+   
+
+        <div className="flex justify-end gap-2 mt-4">
+          <button
+            type="button"
+            onClick={() => setShowAddModal(false)}
+            className="px-4 py-2 border rounded hover:bg-gray-100"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Add
+          </button>
         </div>
-      )}
+      </form>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

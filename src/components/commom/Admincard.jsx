@@ -4,6 +4,8 @@ import { X } from 'lucide-react'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { Button } from '../ui/button'
+import api from '@/helper/api'
+import toast from 'react-hot-toast'
 
 const Card = ({ item }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -27,18 +29,26 @@ const Card = ({ item }) => {
 
     const handleEdit = () => setIsEditing(true)
 
-    const handleSave = () => {
-        // Call API to save changes
-        console.log("Saving data:", editedData)
-        setIsEditing(false)
-        setIsModalOpen(false)
-    }
+    
 
-    const handleDelete = () => {
-        // Call API to delete the item
-        console.log("Deleting:", item._id)
-        setIsModalOpen(false)
-    }
+const handleSave = async () => {
+  try {
+    const res = await api.put(`/edit/${item._id}`, editedData);
+     toast.success("Doctor updated successfully!");
+    setIsEditing(false);
+    setIsModalOpen(false);
+  } catch (error) {
+  toast.error("Doctor updated failed!");  }
+};
+
+const handleDelete = async () => {
+  try {
+    const res = await axios.delete(`/delete/${item._id}`);
+     toast.success("Doctor delete successfully!");
+    setIsModalOpen(false);
+  } catch (error) {
+        toast.error("Doctor delete failed!");  }
+};
 
     return (
         <>

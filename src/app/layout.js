@@ -1,5 +1,6 @@
 // src/app/layout.js
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import LayoutWrapper from "@/components/commom/wrapper";
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
       <html lang="en" className="scroll-smooth">
         <LayoutWrapper>
           {children}
+           <Toaster position="top-right" reverseOrder={false} />
         </LayoutWrapper>
       </html>
     </ClerkProvider>
