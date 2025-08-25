@@ -68,16 +68,15 @@ const Card = ({ item }) => {
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-lg w-full max-w-2xl p-6 pt-10 relative">
-                        <button
-                            className="absolute top-3 right-3 pb-4 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center shadow"
-                            onClick={() => setIsModalOpen(false)}
-                        >
-                            <X size={20}/>
-                        </button>
-
+                       <button
+  className="absolute top-4 right-4 p-2 bg-white hover:bg-gray-100 text-gray-600 rounded-full shadow-lg transition"
+  onClick={() => setIsModalOpen(false)}
+>
+  <X size={22} strokeWidth={2.5} />
+</button>
                         <div className="flex flex-col md:flex-row gap-6">
                             {/* Left Image */}
-                            <div className="flex-shrink-0">
+                            <div className="flex-shrink-0 pt-5">
                                 <Image
                                     src={item.image}
                                     alt={item.name}
@@ -88,7 +87,7 @@ const Card = ({ item }) => {
                             </div>
 
                             {/* Right Content */}
-                            <div className="flex-1">
+                            <div className="flex-1 pt-5">
                                 {isEditing ? (
                                     <div className="flex flex-col gap-3">
                                         <input
