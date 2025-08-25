@@ -90,7 +90,7 @@ const DashboardPage = () => {
                 key={appt._id}
                 className="p-4 border rounded-xl shadow-sm hover:bg-gray-50 transition"
               >
-                <div className="flex justify-between items-center gap-1">
+                <div className="flex flex-col gap-3 md:grid md:grid-cols-5 md:items-center md:gap-4">
                   <p className="flex items-center gap-2 text-gray-800 font-medium">
                     <User size={16} className="text-gray-500" /> {appt.name}
                   </p>
